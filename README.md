@@ -11,7 +11,7 @@ This package is available via Composer:
 ```json
 {
     "require": {
-        "dmitrymomot/php-session": "dev-master"
+        "dmitrymomot/php-session": "1.*"
     }
 }
 ```

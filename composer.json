@@ -10,7 +10,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-		"ohanzee/helpers": "dev-master"
+		"dmitrymomot/cookie-helper": "dev-master"
     },
     "autoload": {
         "psr-4": {

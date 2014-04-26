@@ -2,8 +2,8 @@
 
 namespace Session\Adapter;
 
+use \Helper\Cookie;
 use \Session\Session;
-use \Ohanzee\Helper\Cookie;
 
 class Native extends Session {
 
@@ -22,7 +22,12 @@ class Native extends Session {
 	protected function _read($id = null)
 	{
 		// Sync up the session cookie with Cookie parameters
-		session_set_cookie_params($this->_lifetime, Cookie::$path, Cookie::$domain, Cookie::$secure, Cookie::$httponly);
+		session_set_cookie_params(
+			$this->_lifetime,
+			$this->_cookie->path,
+			$this->_cookie->domain,
+			$this->_cookie->secure,
+			$this->_cookie->httponly);
 
 		// Do not allow PHP to send Cache-Control headers
 		session_cache_limiter(false);

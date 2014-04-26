@@ -2,6 +2,7 @@
 
 namespace Session;
 
+use \Helper\Cookie;
 use \Session\Exception;
 
 abstract class Session {
@@ -53,22 +54,32 @@ abstract class Session {
 	}
 
 	/**
-	 * @var  string  cookie name
+	 * Instance of class Cookie
+	 * @var object
+	 */
+	protected $_cookie;
+
+	/**
+	 * Cookie name
+	 * @var string
 	 */
 	protected $_name = 'session';
 
 	/**
-	 * @var  int  cookie lifetime
+	 * Cookie lifetime
+	 * @var integer
 	 */
 	protected $_lifetime = 3600;
 
 	/**
-	 * @var  array  session data
+	 * Session data
+	 * @var array
 	 */
 	protected $_data = array();
 
 	/**
-	 * @var  bool  session destroyed?
+	 * Session destroyed?
+	 * @var boolean
 	 */
 	protected $_destroyed = false;
 
@@ -80,6 +91,8 @@ abstract class Session {
 	 */
 	protected function __construct($id = null)
 	{
+		$this->_cookie = new Cookie;
+
 		// Load the session
 		$this->read($id);
 	}

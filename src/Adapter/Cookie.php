@@ -2,8 +2,6 @@
 
 namespace Session\Adapter;
 
-use \Ohanzee\Helper\Cookie;
-
 class Cookie extends Session {
 
 	/**
@@ -12,7 +10,7 @@ class Cookie extends Session {
 	 */
 	protected function _read($id = null)
 	{
-		return Cookie::get($this->_name, null);
+		return $this->_cookie->get($this->_name, null);
 	}
 
 	/**
@@ -29,7 +27,7 @@ class Cookie extends Session {
 	 */
 	protected function _write()
 	{
-		return Cookie::set($this->_name, $this->__toString(), $this->_lifetime);
+		return $this->_cookie->set($this->_name, $this->__toString(), $this->_lifetime);
 	}
 
 	/**
@@ -45,7 +43,7 @@ class Cookie extends Session {
 	 */
 	protected function _destroy()
 	{
-		return Cookie::delete($this->_name);
+		return $this->_cookie->delete($this->_name);
 	}
 
 }
