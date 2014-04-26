@@ -1,0 +1,15 @@
+{
+    "name": "dmitrymomot/php-session",
+    "description": "Simple package for work with sessions",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dmitry Momot",
+            "email": "mail@dmomot.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+		"ohanzee/helpers": "dev-master"
+    }
+}
