@@ -10,7 +10,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-		"dmitrymomot/cookie-helper": "v1.*"
+		"dmitrymomot/cookie-helper": "1.*"
     },
     "autoload": {
         "psr-4": {
