@@ -18,7 +18,21 @@ This package is available via Composer:
 
 ## Example of usage
 
-Coming soon...
+```php
+// Set driver for session
+// available: native, cookie
+// as default - native
+Session::$default = 'deriver_name'
+
+// set session
+Session::instance()->set('session_name', 'session value');
+
+// get session
+Session::instance()->get('session_name', 'default value');
+
+// delete session
+Session::instance()->set('session_name', 'session value');
+```
 
 ## License
 
