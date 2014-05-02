@@ -2,8 +2,10 @@
 
 namespace Session;
 
+use \Exception;
 use \Helper\Cookie;
-use \Session\Exception;
+use \Session\Adapter;
+use \Session\SessionException;
 
 abstract class Session {
 
@@ -32,16 +34,14 @@ abstract class Session {
 	 */
 	public static function instance($type = null, $id = null)
 	{
-		if ($type === null)
-		{
+		if ($type === null) {
 			// Use the default type
 			$type = static::$default;
 		}
 
-		if ( ! isset(static::$instances[$type]))
-		{
+		if ( ! isset(static::$instances[$type])) {
 			// Set the session class name
-			$class = '\\Session\\Adapter\\'.ucfirst($type);
+			$class = 'Adapter\\'.ucfirst($type);
 
 			// Create a new session instance
 			static::$instances[$type] = $session = new $class($id);
@@ -185,9 +185,7 @@ abstract class Session {
 	public function get_once($key, $default = null)
 	{
 		$value = $this->get($key, $default);
-
 		unset($this->_data[$key]);
-
 		return $value;
 	}
 
@@ -203,7 +201,6 @@ abstract class Session {
 	public function set($key, $value)
 	{
 		$this->_data[$key] = $value;
-
 		return $this;
 	}
 
@@ -219,7 +216,6 @@ abstract class Session {
 	public function bind($key, & $value)
 	{
 		$this->_data[$key] =& $value;
-
 		return $this;
 	}
 
@@ -234,12 +230,9 @@ abstract class Session {
 	public function delete($key)
 	{
 		$args = func_get_args();
-
-		foreach ($args as $key)
-		{
+		foreach ($args as $key) {
 			unset($this->_data[$key]);
 		}
-
 		return $this;
 	}
 
@@ -255,21 +248,16 @@ abstract class Session {
 	{
 		$data = null;
 
-		try
-		{
-			if (is_string($data = $this->_read($id)))
-			{
+		try {
+			if (is_string($data = $this->_read($id))) {
 				$data = $this->_decode($data);
 				$data = $this->_unserialize($data);
 			}
-		}
-		catch (\Exception $e)
-		{
-			throw new Session\Exception('Error reading session data.', null, Session\Exception::SESSION_CORRUPT);
+		} catch (Exception $e) {
+			throw new SessionException('Error reading session data.', SessionException::SESSION_CORRUPT);
 		}
 
-		if (is_array($data))
-		{
+		if (is_array($data)) {
 			// Load the data locally
 			$this->_data = $data;
 		}
@@ -300,8 +288,7 @@ abstract class Session {
 	 */
 	public function write()
 	{
-		if (headers_sent() OR $this->_destroyed)
-		{
+		if (headers_sent() OR $this->_destroyed) {
 			// Session cannot be written when the headers are sent or when
 			// the session has been destroyed
 			return false;
@@ -310,15 +297,11 @@ abstract class Session {
 		// Set the last active timestamp
 		$this->_data['last_active'] = time();
 
-		try
-		{
+		try {
 			return $this->_write();
-		}
-		catch (\Exception $e)
-		{
+		} catch (\Exception $e) {
 			// Log & ignore all errors when a write fails
 			$this->_log($e->getMessage());
-
 			return false;
 		}
 	}
@@ -332,15 +315,12 @@ abstract class Session {
 	 */
 	public function destroy()
 	{
-		if ($this->_destroyed === false)
-		{
-			if ($this->_destroyed = $this->_destroy())
-			{
+		if ($this->_destroyed === false) {
+			if ($this->_destroyed = $this->_destroy()) {
 				// The session has been destroyed, clear all data
 				$this->_data = array();
 			}
 		}
-
 		return $this->_destroyed;
 	}
 
@@ -353,8 +333,7 @@ abstract class Session {
 	 */
 	public function restart()
 	{
-		if ($this->_destroyed === false)
-		{
+		if ($this->_destroyed === false) {
 			// Wipe out the current session.
 			$this->destroy();
 		}

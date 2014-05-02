@@ -32,17 +32,18 @@ class Native extends Session {
 		// Do not allow PHP to send Cache-Control headers
 		session_cache_limiter(false);
 
-		// Set the session cookie name
-		session_name($this->_name);
+		if (!session_id()) {
+			// Set the session cookie name
+			session_name($this->_name);
 
-		if ($id)
-		{
-			// Set the session id
-			session_id($id);
+			if ($id) {
+				// Set the session id
+				session_id($id);
+			}
+
+			// Start the session
+			session_start();
 		}
-
-		// Start the session
-		session_start();
 
 		// Use the $_SESSION global for storing data
 		$this->_data =& $_SESSION;
@@ -97,10 +98,9 @@ class Native extends Session {
 		// Did destruction work?
 		$status = ! session_id();
 
-		if ($status)
-		{
+		if ($status) {
 			// Make sure the session cannot be restarted
-			Cookie::delete($this->_name);
+			$this->_cookie->delete($this->_name);
 		}
 
 		return $status;
