@@ -8,7 +8,6 @@
             "email": "mail@dmomot.com"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "php":">=5.3.0",
 		"dmitrymomot/cookie-helper": "1.*"
