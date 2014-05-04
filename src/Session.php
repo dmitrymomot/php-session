@@ -41,7 +41,7 @@ abstract class Session {
 
 		if ( ! isset(static::$instances[$type])) {
 			// Set the session class name
-			$class = 'Adapter\\'.ucfirst($type);
+			$class = '\\Session\\Adapter\\'.ucfirst($type);
 
 			// Create a new session instance
 			static::$instances[$type] = $session = new $class($id);
